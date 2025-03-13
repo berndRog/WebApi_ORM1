@@ -8,13 +8,13 @@ using WebApiOrmTest.Persistence.Repositories;
 using Xunit;
 namespace WebOrmTest.Data.Repositories;
 [Collection(nameof(SystemTestCollectionDefinition))]
-public abstract class BaseRepositoryUt {
+public abstract class BaseRepository {
    
    protected readonly IPeopleRepository _peopleRepository;
    protected readonly IDataContext _dataContext;
    protected readonly Seed _seed;
 
-   protected BaseRepositoryUt() {
+   protected BaseRepository() {
       
       // Test DI-Container
       IServiceCollection services = new ServiceCollection();

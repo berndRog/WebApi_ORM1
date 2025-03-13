@@ -42,6 +42,8 @@ public class Seed {
          email: "b.bauer@gmail.com",
          phone: "05826 1234 5678"
       );
+      
+      People = new List<Person> { Person1, Person2, Person3, Person4 };
       #endregion
    }
 }

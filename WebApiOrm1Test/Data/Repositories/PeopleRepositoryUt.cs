@@ -6,7 +6,7 @@ using Xunit;
 namespace OrmTest.Data.Repositories;
 
 [Collection(nameof(SystemTestCollectionDefinition))]
-public class PeopleRepositoryUt : BaseRepositoryUt {
+public class PeopleRepositoryUt : BaseRepository {
 
    [Fact]
    public void FindByIdUt() {
@@ -17,7 +17,7 @@ public class PeopleRepositoryUt : BaseRepositoryUt {
       // Act
       var actual = _peopleRepository.FindById(_seed.Person1.Id);
       // Assert
-      Assert.Equal(_seed.Person1, actual);
+      Assert.Equivalent(_seed.Person1, actual);
    }
 
    [Fact]
@@ -30,7 +30,7 @@ public class PeopleRepositoryUt : BaseRepositoryUt {
       var name = _seed.Person2.FirstName + " " + _seed.Person2.LastName;
       var actual = _peopleRepository.FindByName(name);
       // Assert
-      Assert.Equal(_seed.Person2, actual);
+      Assert.Equivalent(_seed.Person2, actual);
    }
 
    [Fact]
@@ -55,7 +55,7 @@ public class PeopleRepositoryUt : BaseRepositoryUt {
       _dataContext.ClearChangeTracker();
       // Assert
       var actual = _peopleRepository.SelectAll();
-      Assert.Equal(expected, actual);
+      Assert.Equivalent(expected, actual);
    }
 
 
@@ -77,7 +77,7 @@ public class PeopleRepositoryUt : BaseRepositoryUt {
       _dataContext.SaveAllChanges();
       // Assert
       var actual = _peopleRepository.FindById(updPerson.Id);
-      Assert.Equal(updPerson, actual);
+      Assert.Equivalent(updPerson, actual);
    }
 }
 

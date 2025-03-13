@@ -4,7 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
 		<RootNamespace>WebApiOrm</RootNamespace>
 		<Nullable>enable</Nullable>
-		<IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
