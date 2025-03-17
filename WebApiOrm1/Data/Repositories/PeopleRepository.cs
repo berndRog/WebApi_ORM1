@@ -25,15 +25,15 @@ public class PeopleRepository(
    public void Add(Person person) =>
       _dbSetPeople.Add(person);
 
-   public void AddRange(IEnumerable<Person> people) {
+   public void AddRange(IEnumerable<Person> people) =>
       _dbSetPeople.AddRange(people);
-   }
 
-   public void UpdateAsync(Person updPerson) {
-      var person = _dbSetPeople.FirstOrDefault(person => 
-         person.Id == updPerson.Id);
-      if (person == null) throw new Exception("Person to be updated not found");
-      person.Update(updPerson);
+   public void Update(Person updPerson) {
+      var retrievedItem = _dbSetPeople.Find(updPerson.Id);
+      if (retrievedItem == null)
+         throw new ApplicationException($"Update failed, person with given id not found");
+      dataContext.Entry(retrievedItem).CurrentValues.SetValues(updPerson);
+      dataContext.Entry(retrievedItem).State = EntityState.Modified; 
    }
 
    public void Remove(Person person) {

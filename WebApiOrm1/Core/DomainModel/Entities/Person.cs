@@ -9,8 +9,7 @@ public class Person: AEntity {
    public string? Email { get; private set; }
    public string? Phone { get; private set; } 
    
-   // EF Core requires a constructor
-   internal Person() { }
+   // ctor for Doamin Model
    public Person(Guid id, string firstName, string lastName, string? email = null,
       string? phone = null) {
       Id = id;
@@ -26,11 +25,11 @@ public class Person: AEntity {
       if(phone != null) Phone = phone;
    } 
    
-   public void Update (Person updPerson) {
-      FirstName = updPerson.FirstName;
-      LastName = updPerson.LastName;
-      if(updPerson.Email != null) Email = updPerson.Email;
-      if(updPerson.Phone != null) Phone = updPerson.Phone;
+   public void Update(string firstName, string lastName, string? email = null, string? phone = null) {
+      FirstName = firstName;
+      LastName = lastName;
+      if(email != null) Email = email;
+      if(phone != null) phone = phone;
    }
    
 }

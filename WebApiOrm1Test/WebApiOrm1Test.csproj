@@ -34,13 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettingsTest.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\WebApiOrm1\WebApiOrm1.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApiOrm1\WebApiOrm1.csproj" />
+    <None Update="appsettingsTest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

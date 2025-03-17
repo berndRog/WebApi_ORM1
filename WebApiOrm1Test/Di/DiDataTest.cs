@@ -50,7 +50,7 @@ public static class DiTestData {
             services.AddDbContext<IDataContext, DataContext>(options => {
                   options.UseSqlite(dataSource);
                   Console.WriteLine($"....: UseSqlite {dataSource}");
-                  //options.UseSqlite("DataSource=:memory:");
+                  // options.UseSqlite("DataSource=:memory:");
                   //Console.WriteLine($"....: UseSqlite in Memory Database");
                }
             );

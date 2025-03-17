@@ -7,7 +7,7 @@ public interface IPeopleRepository {
    
    void Add(Person person);
    void AddRange(IEnumerable<Person> people);
-   void UpdateAsync(Person updPerson);
+   void Update(Person updPerson);
    void Remove(Person person); 
    
    Person? FindByName(string name);

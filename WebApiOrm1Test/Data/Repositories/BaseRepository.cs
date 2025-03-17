@@ -1,4 +1,5 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebApiOrm.Core;
 using WebApiOrm.Data;
@@ -30,7 +31,10 @@ public abstract class BaseRepository {
       //-- Service Locator 
       var dbContext = serviceProvider.GetRequiredService<DataContext>()
          ?? throw new Exception("Failed to create DbContext");
+      // File based
       dbContext.Database.EnsureDeleted();
+      // In-Memory
+      // dbContext.Database.OpenConnection();
       dbContext.Database.EnsureCreated();
       
       _dataContext = serviceProvider.GetRequiredService<IDataContext>()

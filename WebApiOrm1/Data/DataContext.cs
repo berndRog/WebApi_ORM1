@@ -45,8 +45,6 @@ public class DataContext(
       
       // log repositories before transfer to the database
       var view = ChangeTracker.DebugView.LongView;
-      Console.WriteLine($"{text}\n{view}");
-      Debug.WriteLine($"{text}\n{view}");
       _logger.LogInformation("\n{view}",view);
       
       // save all changes to the database, returns the number of rows affected
@@ -54,7 +52,6 @@ public class DataContext(
       
       // log repositories after transfer to the database
       _logger.LogInformation("SaveChanges {result}",result);
-
       _logger.LogInformation("\n{view}",ChangeTracker.DebugView.LongView);
       return result>0;
    }

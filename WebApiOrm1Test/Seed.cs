@@ -19,28 +19,28 @@ public class Seed {
          firstName: "Erika",
          lastName: "Mustermann",
          email: "erika.mustermann@t-online.de",
-         phone: "05826 1234 5678"
+         phone: "05826/1234 5678"
       );
       Person2 = new Person (
          id: new Guid("20000000-0000-0000-0000-000000000000"),
          firstName: "Max",
          lastName: "Mustermann",
          email: "max.mustermann@gmail.com",
-         phone: "05826 1234 5678"
+         phone: "05826/1234 5678"
       );
       Person3 = new Person (
          id: new Guid("30000000-0000-0000-0000-000000000000"),
          firstName: "Arno",
          lastName: "Arndt",
          email: "a.arndt@t-online.de",
-         phone: "05826 1234 5678"
+         phone: "04131 9876 5432"
       );
       Person4 = new Person(
          id: new Guid("40000000-0000-0000-0000-000000000000"),
          firstName: "Benno",
          lastName: "Bauer",
          email: "b.bauer@gmail.com",
-         phone: "05826 1234 5678"
+         phone: "05141 4321 9876"
       );
       
       People = new List<Person> { Person1, Person2, Person3, Person4 };

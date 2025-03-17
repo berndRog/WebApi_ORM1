@@ -1,4 +1,5 @@
-﻿using WebApiOrm.Core.DomainModel.Entities;
+﻿using System.Collections.Generic;
+using WebApiOrm.Core.DomainModel.Entities;
 using Xunit;
 
 namespace WebApiOrmTest.Core.DomainModel.Entities;
@@ -18,11 +19,16 @@ public class PersonUt {
          phone: _seed.Person1.Phone
       );
       // Assert
-      Assert.Equal(actual.Id, _seed.Person1.Id);
-      Assert.Equal(actual.FirstName, _seed.Person1.FirstName);
-      Assert.Equal(actual.LastName,_seed.Person1.LastName);
-      Assert.Equal(actual.Email,_seed.Person1.Email);
-      Assert.Equal(actual.Phone,_seed.Person1.Phone);
+      Assert.NotNull(actual);
+      Assert.IsType<Person>(actual);
+      
+      Assert.Equal(_seed.Person1.Id, actual.Id);
+      Assert.Equal(_seed.Person1.FirstName, actual.FirstName);
+      Assert.Equal(_seed.Person1.LastName, actual.LastName);
+      Assert.Equal(_seed.Person1.Email, actual.Email);
+      Assert.Equal(_seed.Person1.Phone,actual.Phone);
+      
+      // Assert.Equivalent(_seed.Person1, actual);
    }
    
    [Fact]
@@ -36,12 +42,15 @@ public class PersonUt {
       var actualEmail = actual.Email;
       var actualPhone = actual.Phone;
       // Assert
-      Assert.Equal(actualId,_seed.Person1.Id);
-      Assert.Equal(actualFirstName,_seed.Person1.FirstName);
-      Assert.Equal(actualLastName,_seed.Person1.LastName);
-      Assert.Equal(actualEmail,_seed.Person1.Email);
-      Assert.Equal(actualPhone,_seed.Person1.Phone);
+      // Assert.Equal(_seed.Person1.Id, actualId);
+      // Assert.Equal(_seed.Person1.FirstName, actualFirstName);
+      // Assert.Equal(_seed.Person1.LastName, actualLastName);
+      // Assert.Equal(_seed.Person1.Email, actualEmail);
+      // Assert.Equal(_seed.Person1.Phone,actualPhone);
+      
+      Assert.Equivalent(_seed.Person1, actual);
    }
+
 
    [Fact]
    public void SetUt() {
@@ -56,24 +65,28 @@ public class PersonUt {
       // Act
       actual.Set(email: _seed.Person1.Email, phone: _seed.Person1.Phone);
       // Assert
-      Assert.Equal(actual.Id,_seed.Person1.Id);
-      Assert.Equal(actual.FirstName,_seed.Person1.FirstName);
-      Assert.Equal(actual.LastName,_seed.Person1.LastName);
-      Assert.Equal(actual.Email,_seed.Person1.Email);
-      Assert.Equal(actual.Phone,_seed.Person1.Phone);
+      // Assert.Equal(_seed.Person1.Id, actual.Id);
+      // Assert.Equal(_seed.Person1.FirstName, actual.FirstName);
+      // Assert.Equal(_seed.Person1.LastName, actual.LastName);
+      // Assert.Equal(_seed.Person1.Email, actual.Email);
+      // Assert.Equal(_seed.Person1.Phone,actual.Phone);
+      Assert.Equivalent(_seed.Person1, actual);
    }
-
+   
    [Fact]
    public void UpdateUt() {
       // Arrange
-      Person actual = _seed.Person1;
+      var firstName = _seed.Person2.FirstName;
+      var lastName = _seed.Person2.LastName;
+      var email = _seed.Person2.Email;
+      var phone = _seed.Person2.Phone;
       // Act
-      actual.Update(_seed.Person2);
+      _seed.Person1.Update(firstName, lastName, email, phone);
       // Assert
-      Assert.Equal(actual.FirstName,_seed.Person2.FirstName);
-      Assert.Equal(actual.LastName,_seed.Person2.LastName);
-      Assert.Equal(actual.Email,_seed.Person2.Email);
-      Assert.Equal(actual.Phone,_seed.Person2.Phone);
+      Assert.Equal(_seed.Person2.FirstName, _seed.Person1.FirstName);
+      Assert.Equal(_seed.Person2.LastName, _seed.Person1.LastName);
+      Assert.Equal(_seed.Person2.Email, _seed.Person1.Email);
+      Assert.Equal(_seed.Person2.Phone, _seed.Person1.Phone);
    }
    
 }

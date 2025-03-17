@@ -73,39 +73,24 @@ public class PeopleRepositoryUt : BaseRepository {
          email: _seed.Person1.Email,
          phone: _seed.Person1.Phone
       );
-      _peopleRepository.UpdateAsync(updPerson);
+      _peopleRepository.Update(updPerson);
       _dataContext.SaveAllChanges();
       // Assert
       var actual = _peopleRepository.FindById(updPerson.Id);
       Assert.Equivalent(updPerson, actual);
    }
+   
+   [Fact]
+   public void RemoveUt() {
+      // Arrange
+      _peopleRepository.AddRange(_seed.People);
+      _dataContext.SaveAllChanges();
+      _dataContext.ClearChangeTracker();
+      // Act
+      _peopleRepository.Remove(_seed.Person1);
+      _dataContext.SaveAllChanges();
+      // Assert
+      var actual = _peopleRepository.FindById(_seed.Person1.Id);
+      Assert.Null(actual);
+   }
 }
-
-//    
-//    #region with accounts
-//    [Fact]
-//    public async Task FindByIdJoinAsyncUt() {
-//       // Arrange
-//       
-//       
-//       await _arrangeTest.OwnersWithAccountsAsync(_seed);
-//       // Act  with tracking
-//       var actual = await _peopleRepository.FindByIdJoinAsync(_seed.Person1.Id, true);
-//       // Assert
-//       actual.Should()
-//          .NotBeNull().And
-//          .BeEquivalentTo(_seed.Person1, options => options.IgnoringCyclicReferences());
-//    }
-//    [Fact]
-//    public async Task FindByJoinAsyncUt() {
-//       // Arrange
-//       await _arrangeTest.OwnersWithAccountsAsync(_seed);
-//       // Act  with tracking
-//       var actual = await _peopleRepository.FindByJoinAsync(o => o.Email == _seed.Owner5.Email, true);
-//       // Assert
-//       actual.Should()
-//          .NotBeNull().And
-//          .BeEquivalentTo(_seed.Owner5, options => options.IgnoringCyclicReferences());
-//    }
-//    #endregion
-// }
