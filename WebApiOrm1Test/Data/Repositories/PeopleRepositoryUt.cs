@@ -11,7 +11,7 @@ public class PeopleRepositoryUt : BaseRepository {
    [Fact]
    public void FindByIdUt() {
       // Arrange
-      _peopleRepository.AddRange(_seed.People);
+      _peopleRepository.Add(_seed.Person1);
       _dataContext.SaveAllChanges();
       _dataContext.ClearChangeTracker();
       // Act
@@ -62,7 +62,7 @@ public class PeopleRepositoryUt : BaseRepository {
    [Fact]
    public void UpdateUt() {
       // Arrange
-      _peopleRepository.AddRange(_seed.People);
+      _peopleRepository.Add(_seed.Person1);
       _dataContext.SaveAllChanges();
       _dataContext.ClearChangeTracker();
       // Act

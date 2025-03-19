@@ -5,17 +5,12 @@ using WebApiOrm.Core.DomainModel.Entities;
 namespace WebApiOrm.Data; 
 
 public class DataContext(
-   DbContextOptions<DataContext> options
+    DbContextOptions<DataContext> options
 ) : DbContext(options), IDataContext {
    
-   #region fields
    private ILogger<DataContext>? _logger;
-   #endregion
    
    #region properties
-   // Note that DbContext caches the instance of DbSet returned from the
-   // Set method so that each of these properties will return the same
-   // instance every time it is called.
    public DbSet<Person> People => Set<Person>(); // call to a method, not a field 
    #endregion
    
@@ -44,8 +39,7 @@ public class DataContext(
    public bool SaveAllChanges(string? text = null) {
       
       // log repositories before transfer to the database
-      var view = ChangeTracker.DebugView.LongView;
-      _logger.LogInformation("\n{view}",view);
+      _logger.LogInformation("\n{view}",ChangeTracker.DebugView.LongView);
       
       // save all changes to the database, returns the number of rows affected
       var result = SaveChanges();
@@ -92,14 +86,14 @@ public class DataContext(
          ?? throw new Exception("ConnectionStrings is not available"); 
       
       switch (useDatabase) {
-         case "Sqlite":
-            var dataSourceSqlite =
-               "Data Source=" + Path.Combine(path, connectionString) + ".db";
+         case "Sqlite": var dataSourceSqlite = "Data Source=" + 
+               Path.Combine(path, connectionString) + ".db";
             Console.WriteLine($"....: EvalDatabaseConfiguration: Sqlite {dataSourceSqlite}");
             return (useDatabase, dataSourceSqlite);
-         default:
-            throw new Exception("appsettings.json Problems with database configuration");
-      }   }
+         default: throw new Exception(
+            "appsettings.json Problems with database configuration");
+      }   
+   }
    #endregion
    
 }
