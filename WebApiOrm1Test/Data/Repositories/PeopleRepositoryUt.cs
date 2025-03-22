@@ -54,18 +54,16 @@ public class PeopleRepositoryUt : BaseRepository {
       _dataContext.SaveAllChanges();
       _dataContext.ClearChangeTracker();
       // Act
-      var updPerson = new Person(
-         id: _seed.Person1.Id,
-         firstName: "Erika",
-         lastName: "Meier",
-         email: _seed.Person1.Email,
-         phone: _seed.Person1.Phone
-      );
-      _peopleRepository.Update(updPerson);
+      // retrieve person from database which is tracked
+      var actualPerson = _peopleRepository.FindById(_seed.Person1.Id);
+      // domain model
+      actualPerson.Update("Erika","Meier");
+      // update person in repository
+      _peopleRepository.Update(actualPerson);
       _dataContext.SaveAllChanges();
       // Assert
-      var actual = _peopleRepository.FindById(updPerson.Id);
-      Assert.Equivalent(updPerson, actual);
+      var actual = _peopleRepository.FindById(_seed.Person1.Id);
+      Assert.Equivalent(actualPerson, actual);
    }
    
    [Fact]
