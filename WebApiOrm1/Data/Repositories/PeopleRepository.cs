@@ -42,14 +42,21 @@ public class PeopleRepository(
       _dbSetPeople.Remove(pFound);
    }
    
-   public  Person? FindByName(string name) {
-      var tokens = name.Trim().Split(" ");
-      var firstName = string.Join(" ", tokens.Take(tokens.Length - 1));
-      var lastName = tokens.Last();
-      var person = _dbSetPeople.FirstOrDefault(person =>
-         person.FirstName == firstName && person.LastName == lastName);
-      dataContext.LogChangeTracker("Person: FindByName");
-      return person;
+   public IEnumerable<Person> SelectByName(string namePattern) {
+      if (string.IsNullOrWhiteSpace(namePattern))
+         return Enumerable.Empty<Person>();
+      // var tokens = namePattern.Trim().Split(" ");
+      // var firstName = string.Join(" ", tokens.Take(tokens.Length - 1));
+      // var lastName = tokens.Last();
+      // var people = _dbSetPeople.Where(person =>
+      //       EF.Functions.Like(person.FirstName, $"%{firstName}%") || 
+      //       EF.Functions.Like(person.LastName, $"%{lastName}%"))
+      //    .ToList();
+      var people = _dbSetPeople
+         .Where(person => EF.Functions.Like(person.LastName, $"%{namePattern}%"))
+         .ToList();
+      dataContext.LogChangeTracker("Person: FindByNamePattern");
+      return people;
    }
 
 }

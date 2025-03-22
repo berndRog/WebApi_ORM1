@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApiOrm.Core.DomainModel.Entities;
 using WebApiOrmTest.Persistence.Repositories;
 using WebOrmTest.Data.Repositories;
@@ -18,19 +19,6 @@ public class PeopleRepositoryUt : BaseRepository {
       var actual = _peopleRepository.FindById(_seed.Person1.Id);
       // Assert
       Assert.Equivalent(_seed.Person1, actual);
-   }
-
-   [Fact]
-   public void FindByNameUt() {
-      // Arrange
-      _peopleRepository.AddRange(_seed.People);
-      _dataContext.SaveAllChanges();
-      _dataContext.ClearChangeTracker();
-      // Act
-      var name = _seed.Person2.FirstName + " " + _seed.Person2.LastName;
-      var actual = _peopleRepository.FindByName(name);
-      // Assert
-      Assert.Equivalent(_seed.Person2, actual);
    }
 
    [Fact]
@@ -92,5 +80,20 @@ public class PeopleRepositoryUt : BaseRepository {
       // Assert
       var actual = _peopleRepository.FindById(_seed.Person1.Id);
       Assert.Null(actual);
+   }
+   
+   [Fact]
+   public void SelectByNameUt() {
+      // Arrange
+      _peopleRepository.AddRange(_seed.People);
+      _dataContext.SaveAllChanges();
+      _dataContext.ClearChangeTracker();
+      var expected = new List<Person> { _seed.Person1, _seed.Person2 };
+      
+      // Act
+      var actual = _peopleRepository.SelectByName("Muster"); 
+      
+      // Assert
+      Assert.Equivalent(expected, actual);
    }
 }

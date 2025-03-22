@@ -10,6 +10,6 @@ public interface IPeopleRepository {
    void Update(Person updPerson);
    void Remove(Person person); 
    
-   Person? FindByName(string name);
+   IEnumerable<Person> SelectByName(string namePattern);
    
 }
