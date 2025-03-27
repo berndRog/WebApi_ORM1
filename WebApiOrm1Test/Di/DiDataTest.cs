@@ -1,13 +1,8 @@
-﻿using System;
-using System.IO;
-
-using Microsoft.EntityFrameworkCore;
+﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WebApiOrm.Core;
-using WebApiOrm.Data;
-using WebApiOrm.Data.Repositories;
+using WebApiOrm;
 namespace WebApiOrmTest.Di;
 
 public static class DiTestData {
@@ -36,27 +31,8 @@ public static class DiTestData {
          builder.AddDebug();
       });
       
-      // UseCases ...
-      // services.AddCore();
-      
       // Repository, Database ...
-      services.AddSingleton<IPeopleRepository, PeopleRepository>();
+      services.AddData(configuration);
       
-      // Add DbContext (Database) to DI-Container
-      var (useDatabase, dataSource) = DataContext.EvalDatabaseConfiguration(configuration);
-      
-      switch (useDatabase) {
-         case "Sqlite":
-            services.AddDbContext<IDataContext, DataContext>(options => {
-                  options.UseSqlite(dataSource);
-                  Console.WriteLine($"....: UseSqlite {dataSource}");
-                  // options.UseSqlite("DataSource=:memory:");
-                  //Console.WriteLine($"....: UseSqlite in Memory Database");
-               }
-            );
-            break;
-         default:
-            throw new Exception("appsettings.json UseDatabase not available");
-      }
    }
 }

@@ -22,7 +22,7 @@ public class PeopleRepositoryUt : BaseRepository {
    }
 
    [Fact]
-   public async Task AddUt() {
+   public void AddUt() {
       // Arrange
       var person = _seed.Person1;
       // Act
@@ -34,7 +34,7 @@ public class PeopleRepositoryUt : BaseRepository {
    }
 
    [Fact]
-   public async Task AddRangeUt() {
+   public void AddRangeUt() {
       // Arrange
       var expected = _seed.People;
       // Act
@@ -56,6 +56,7 @@ public class PeopleRepositoryUt : BaseRepository {
       // Act
       // retrieve person from database which is tracked
       var actualPerson = _peopleRepository.FindById(_seed.Person1.Id);
+      Assert.NotNull(actualPerson);
       // domain model
       actualPerson.Update("Erika","Meier");
       // update person in repository
@@ -69,11 +70,13 @@ public class PeopleRepositoryUt : BaseRepository {
    [Fact]
    public void RemoveUt() {
       // Arrange
-      _peopleRepository.AddRange(_seed.People);
+      _peopleRepository.Add(_seed.Person1);
       _dataContext.SaveAllChanges();
       _dataContext.ClearChangeTracker();
       // Act
-      _peopleRepository.Remove(_seed.Person1);
+      var actualPerson = _peopleRepository.FindById(_seed.Person1.Id);
+      Assert.NotNull(actualPerson);
+      _peopleRepository.Remove(actualPerson);
       _dataContext.SaveAllChanges();
       // Assert
       var actual = _peopleRepository.FindById(_seed.Person1.Id);

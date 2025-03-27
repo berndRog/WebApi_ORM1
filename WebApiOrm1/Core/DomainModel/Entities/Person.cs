@@ -29,7 +29,7 @@ public class Person: AEntity {
       FirstName = firstName;
       LastName = lastName;
       if(email != null) Email = email;
-      if(phone != null) phone = phone;
+      if(phone != null) Phone = phone;
    }
    
 }

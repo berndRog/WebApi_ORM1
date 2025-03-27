@@ -7,7 +7,6 @@ public class PeopleRepository(
    DataContext dataContext
 ) : IPeopleRepository {
    
-   private readonly DataContext _dataContext = dataContext;
    private readonly DbSet<Person> _dbSetPeople = dataContext.People; // => Set<Person>
 
    public IEnumerable<Person> SelectAll() {
@@ -29,7 +28,7 @@ public class PeopleRepository(
       _dbSetPeople.AddRange(people);
 
    public  void Update(Person person) {
-      var entry = _dataContext.Entry(person);
+      var entry = dataContext.Entry(person);
       if (entry == null)
          throw new ApplicationException($"Update failed, entity with given id not found");
       if (entry.State == EntityState.Detached) _dbSetPeople.Attach(person);
@@ -37,9 +36,10 @@ public class PeopleRepository(
    }
 
    public void Remove(Person person) {
-      var pFound = _dbSetPeople.FirstOrDefault(p => p.Id == person.Id);
-      if (pFound == null) throw new Exception("Person to be removed not found");
-      _dbSetPeople.Remove(pFound);
+      var entry = dataContext.Entry(person);
+      if (entry == null) throw new Exception("Person to be removed not found");
+      if (entry.State == EntityState.Detached) _dbSetPeople.Attach(person);
+      entry.State = EntityState.Deleted;
    }
    
    public IEnumerable<Person> SelectByName(string namePattern) {

@@ -39,14 +39,14 @@ public class DataContext(
    public bool SaveAllChanges(string? text = null) {
       
       // log repositories before transfer to the database
-      _logger.LogInformation("\n{view}",ChangeTracker.DebugView.LongView);
+      _logger?.LogInformation("\n{view}",ChangeTracker.DebugView.LongView);
       
       // save all changes to the database, returns the number of rows affected
       var result = SaveChanges();
       
       // log repositories after transfer to the database
-      _logger.LogInformation("SaveChanges {result}",result);
-      _logger.LogInformation("\n{view}",ChangeTracker.DebugView.LongView);
+      _logger?.LogInformation("SaveChanges {result}",result);
+      _logger?.LogInformation("\n{view}",ChangeTracker.DebugView.LongView);
       return result>0;
    }
    
