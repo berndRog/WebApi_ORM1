@@ -86,13 +86,18 @@ public class DataContext(
          ?? throw new Exception("ConnectionStrings is not available"); 
       
       switch (useDatabase) {
-         case "Sqlite": var dataSourceSqlite = "Data Source=" + 
-               Path.Combine(path, connectionString) + ".db";
+         case "Sqlite":
+            var dataSourceSqlite =
+               "Data Source=" + Path.Combine(path, connectionString) + ".db";
             Console.WriteLine($"....: EvalDatabaseConfiguration: Sqlite {dataSourceSqlite}");
             return (useDatabase, dataSourceSqlite);
-         default: throw new Exception(
-            "appsettings.json Problems with database configuration");
-      }   
+         case "SqliteInMemory":
+            var dsSqliteInMemory = "Data Source=:memory:";
+            Console.WriteLine($"....: EvalDatabaseConfiguration: SqliteInMemory {dsSqliteInMemory}");
+            return (useDatabase, dsSqliteInMemory);
+         default:
+            throw new Exception("appsettings.json Problems with database configuration");
+      }    
    }
    #endregion
    

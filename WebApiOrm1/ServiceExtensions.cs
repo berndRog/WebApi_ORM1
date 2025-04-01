@@ -16,7 +16,8 @@ public static class ServiceExtensions {
       var (useDatabase, dataSource) = DataContext.EvalDatabaseConfiguration(configuration);
       
       switch (useDatabase) {
-         case "Sqlite":
+         case "Sqlite": 
+         case "SqliteInMemory":
             services.AddDbContext<IDataContext, DataContext>(options => 
                options.UseSqlite(dataSource)
             );

@@ -22,7 +22,7 @@ public abstract class BaseRepository {
       // Add Core, UseCases, Mapper, ...
       //services.AddCore();
       // Add Repositories, Test Databases, ...
-      services.AddDataTest();
+      var(useDatabase, dataSource) = services.AddDataTest();
       // Build ServiceProvider,
       // and use Dependency Injection or Service Locator Pattern
       var serviceProvider = services.BuildServiceProvider()
@@ -31,10 +31,16 @@ public abstract class BaseRepository {
       //-- Service Locator 
       var dbContext = serviceProvider.GetRequiredService<DataContext>()
          ?? throw new Exception("Failed to create DbContext");
-      // File based
-      dbContext.Database.EnsureDeleted();
       // In-Memory
-      // dbContext.Database.OpenConnection();
+      if (useDatabase == "SqliteInMemory") {
+         dbContext.Database.OpenConnection();
+      } else if (useDatabase == "Sqlite") {
+         // File based
+         dbContext.Database.EnsureDeleted();
+         
+      } else {
+         dbContext.Database.EnsureDeleted();
+      }
       dbContext.Database.EnsureCreated();
       
       _dataContext = serviceProvider.GetRequiredService<IDataContext>()

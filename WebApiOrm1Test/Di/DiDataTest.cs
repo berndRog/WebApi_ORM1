@@ -3,11 +3,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApiOrm;
+using WebApiOrm.Data;
 namespace WebApiOrmTest.Di;
 
 public static class DiTestData {
 
-   public static void AddDataTest(
+   public static (string, string) AddDataTest(
       this IServiceCollection services
    ) {
 
@@ -33,6 +34,8 @@ public static class DiTestData {
       
       // Repository, Database ...
       services.AddData(configuration);
+      
+      return DataContext.EvalDatabaseConfiguration(configuration);
       
    }
 }
