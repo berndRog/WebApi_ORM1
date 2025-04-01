@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebApiOrm.Core;
@@ -38,6 +39,15 @@ public abstract class BaseRepository {
          // File based
          dbContext.Database.EnsureDeleted();
          
+         // Workaround  SQLite I/O Errors
+         SqliteConnection connection = new SqliteConnection(dataSource);
+         connection.Open();
+         using var command = connection.CreateCommand();
+         // Switch the journal mode from WAL to DELETE.
+         command.CommandText = "PRAGMA journal_mode = DELETE;";
+         var result = command.ExecuteScalar();
+         Console.WriteLine("Current journal mode: " + result);
+         connection.Close();
       } else {
          dbContext.Database.EnsureDeleted();
       }
