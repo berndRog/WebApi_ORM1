@@ -3,13 +3,13 @@ namespace WebApiOrm.Core;
 
 public interface IPeopleRepository {
    Person? FindById(Guid id);
-   IEnumerable<Person> SelectAll();
+   IEnumerable<Person>? SelectAll();
    
    void Add(Person person);
    void AddRange(IEnumerable<Person> people);
    void Update(Person updPerson);
    void Remove(Person person); 
    
-   IEnumerable<Person> SelectByName(string namePattern);
+   IEnumerable<Person>? SelectByName(string namePattern);
    
 }

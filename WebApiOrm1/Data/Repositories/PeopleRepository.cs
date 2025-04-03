@@ -9,7 +9,7 @@ public class PeopleRepository(
    
    private readonly DbSet<Person> _dbSetPeople = dataContext.People; // => Set<Person>
 
-   public IEnumerable<Person> SelectAll() {
+   public IEnumerable<Person>? SelectAll() {
       var people = _dbSetPeople.ToList();
       dataContext.LogChangeTracker("Person: SelectAll");
       return people;
@@ -42,9 +42,9 @@ public class PeopleRepository(
       entry.State = EntityState.Deleted;
    }
    
-   public IEnumerable<Person> SelectByName(string namePattern) {
+   public IEnumerable<Person>? SelectByName(string namePattern) {
       if (string.IsNullOrWhiteSpace(namePattern))
-         return Enumerable.Empty<Person>();
+         return null;
       // var tokens = namePattern.Trim().Split(" ");
       // var firstName = string.Join(" ", tokens.Take(tokens.Length - 1));
       // var lastName = tokens.Last();
