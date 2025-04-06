@@ -9,7 +9,7 @@ public class PeopleRepository(
    
    private readonly DbSet<Person> _dbSetPeople = dataContext.People; // => Set<Person>
 
-   public IEnumerable<Person>? SelectAll() {
+   public IEnumerable<Person> SelectAll() {
       var people = _dbSetPeople.ToList();
       dataContext.LogChangeTracker("Person: SelectAll");
       return people;
@@ -28,23 +28,26 @@ public class PeopleRepository(
       _dbSetPeople.AddRange(people);
 
    public  void Update(Person person) {
-      var entry = dataContext.Entry(person);
-      if (entry == null)
+      var retrieved = _dbSetPeople.Find(person.Id);
+      if (retrieved == null)
          throw new ApplicationException($"Update failed, entity with given id not found");
+      var entry = dataContext.Entry(retrieved);
       if (entry.State == EntityState.Detached) _dbSetPeople.Attach(person);
       entry.State = EntityState.Modified;
    }
 
    public void Remove(Person person) {
-      var entry = dataContext.Entry(person);
-      if (entry == null) throw new Exception("Person to be removed not found");
+      var retrieved = _dbSetPeople.Find(person.Id);
+      if (retrieved == null)
+         throw new ApplicationException($"Remove failed, entity with given id not found");
+      var entry = dataContext.Entry(retrieved);
       if (entry.State == EntityState.Detached) _dbSetPeople.Attach(person);
       entry.State = EntityState.Deleted;
    }
    
-   public IEnumerable<Person>? SelectByName(string namePattern) {
+   public IEnumerable<Person> SelectByName(string namePattern) {
       if (string.IsNullOrWhiteSpace(namePattern))
-         return null;
+         return [];
       // var tokens = namePattern.Trim().Split(" ");
       // var firstName = string.Join(" ", tokens.Take(tokens.Length - 1));
       // var lastName = tokens.Last();
